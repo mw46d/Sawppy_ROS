@@ -1,0 +1,6 @@
+SGVHAK_Rover:
+  teensy_motors:
+    connect:
+      baudrate: 115200
+      port: /dev/teensy-motors
+      timeout: 0.5

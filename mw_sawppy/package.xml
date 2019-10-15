@@ -1,0 +1,21 @@
+<package>
+  <name>mw_sawppy</name>
+  <version>0.1.0</version>
+  <description>
+    ROS Sawppy Rover Package
+  </description>
+  <author>Marco Walther</author>
+  <maintainer email="marco@sonic.net">Marco Walther</maintainer>
+  <license>MIT</license>
+  <url>https://www.bytesalad.org</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>python-serial</run_depend>
+</package>

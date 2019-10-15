@@ -1,0 +1,23 @@
+SGVHAK_Rover:
+  rc_receiver:
+    connect:
+      baudrate: 115200
+      port: /dev/teensy-rc
+      timeout: 1.0
+    limits:
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0
+      - min: 990.0
+        max: 2016.0

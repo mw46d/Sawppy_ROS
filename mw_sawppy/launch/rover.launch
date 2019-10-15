@@ -1,0 +1,73 @@
+<launch>
+    <node name="rover" pkg="mw_sawppy" type="rover_node.py" output="screen">
+        <rosparam file="$(find mw_sawppy)/config/my_rover_params.yaml" command="load" />
+        <rosparam file="$(find mw_sawppy)/config/lewansoul.yaml" command="load" />
+        <rosparam file="$(find mw_sawppy)/config/teensy_motors.yaml" command="load" />
+        <rosparam file="$(find mw_sawppy)/config/roverchassis.yaml" command="load" />
+        <remap from="rover/cmd_vel" to="/robot_cmd_vel"/>
+    </node>
+
+    <node name="rc_receiver" pkg="mw_sawppy" type="rc_receiver.py" output="screen">
+        <rosparam file="$(find mw_sawppy)/config/rc_receiver.yaml" command="load" />
+    </node>
+
+    <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find rospi2_description)/urdf/rospi2_base_only.xacro'" />
+
+    <arg name="input_cmd_vel_topic"    default="/raw_cmd_vel" />
+    <arg name="feedback_cmd_vel_topic" default="robot_cmd_vel" />
+    <arg name="output_cmd_vel_topic"   default="smoothed_cmd_vel" />
+
+    <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="teleop_joystick">
+        <param name="scale_angular" value="1.8"/>
+        <param name="scale_linear" value="0.8"/>
+        <param name="axis_deadman" value="0"/>
+        <param name="axis_linear" value="2"/>
+        <param name="axis_angular" value="0"/>
+        <remap from="teleop_joystick/cmd_vel" to="$(arg input_cmd_vel_topic)"/>
+    </node>
+
+    <!--
+         Velocity smoother for Teleop
+    -->
+    <node pkg="nodelet" type="nodelet" name="mobile_base_nodelet_manager" args="manager"/>
+
+    <!--
+    <node pkg="nodelet" type="nodelet" name="teleop_velocity_smoother" args="load yocs_velocity_smoother/VelocitySmootherNodelet mobile_base_nodelet_manager">
+        <rosparam file="$(find bv80bot_node)/param/defaults/smoother.yaml" command="load"/>
+        <remap from="teleop_velocity_smoother/smooth_cmd_vel" to="$(arg output_cmd_vel_topic)"/>
+
+        <remap from="teleop_velocity_smoother/raw_cmd_vel" to="$(arg input_cmd_vel_topic)" />
+
+        < ! - - Robot velocity feedbacks; use the one configured as base default - - >
+        <remap from="teleop_velocity_smoother/odometry" to="/odom"/>
+        <remap from="teleop_velocity_smoother/robot_cmd_vel" to="$(arg feedback_cmd_vel_topic)" />
+    </node>
+    -->
+
+    <!-- velocity commands multiplexer -->
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet mobile_base_nodelet_manager">
+        <param name="yaml_cfg_file" value="$(find bv80bot_node)/param/mux.yaml"/>
+        <remap from="cmd_vel_mux/output" to="/robot_cmd_vel"/>
+        <remap from="cmd_vel_mux/input/navi" to="/cmd_vel"/>
+        <!-- remap from="cmd_vel_mux/input/teleop" to="$(arg output_cmd_vel_topic)" / -->
+        <remap from="cmd_vel_mux/input/teleop" to="$(arg input_cmd_vel_topic)" />
+    </node>
+
+    <!-- publish the URDF -->
+    <param name="robot_description" command="$(arg urdf_file)" />
+
+    <!-- publish the robot state transforms -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" >
+        <param name="use_gui" value="False"/>
+        <param name="publish_frequency" value="20.0"/>
+    </node>
+
+    <!-- Provide simulated control of the robot joint angles -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="use_gui" value="False" />
+        <param name="rate" value="20.0"/>
+    </node>
+
+    <!-- include file="$(find bv80bot_node)/launch/include/bv80bot_map.launch" / -->
+
+</launch>

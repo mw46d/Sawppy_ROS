@@ -1,0 +1,5 @@
+<launch>
+    <node name="rc_receiver" pkg="ros_arduino_python" type="rc_receiver.py" output="screen">
+        <rosparam file="$(find mw_sawppy)/config/rc_receiver.yaml" command="load" />
+    </node>
+</launch>

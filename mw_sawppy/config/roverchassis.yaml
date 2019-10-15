@@ -1,0 +1,66 @@
+SGVHAK_Rover:
+  roverchassis:
+    - name: front_left
+      rolling:
+      - teensy
+      - 1
+      - false
+      steering:
+      - lewansoul
+      - 9
+      - 488
+      - false
+      x: -0.237
+      y: 0.260
+    - name: front_right
+      rolling:
+      - teensy
+      - 0
+      - false
+      steering:
+      - lewansoul
+      - 1
+      - 444
+      - false
+      x: 0.237
+      y: 0.260
+    - name: mid_left
+      rolling:
+      - teensy
+      - 3
+      - false
+      steering: 0
+      x: -0.262
+      y: 0
+    - name: mid_right
+      rolling:
+      - teensy
+      - 2
+      - false
+      steering: 0
+      x: 0.262
+      y: 0
+    - name: rear_left
+      rolling:
+      - teensy
+      - 5
+      - false
+      steering:
+      - lewansoul
+      - 7
+      - 470
+      - false
+      x: -0.237
+      y: -0.260
+    - name: rear_right
+      rolling:
+      - teensy
+      - 4
+      - false
+      steering:
+      - lewansoul
+      - 2
+      - 480
+      - false
+      x: 0.237
+      y: -0.260

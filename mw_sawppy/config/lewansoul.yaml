@@ -1,0 +1,6 @@
+SGVHAK_Rover:
+  lewansoul:
+    connect:
+      baudrate: 115200
+      port: /dev/lewansoul-servos
+      timeout: 0.5
