@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<robot name="base" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define a number of dimensions using properties -->
+  <xacro:property name="wheel_length" value="0.10" />
+  <xacro:property name="wheel_radius" value="0.061" />
+  <xacro:property name="wheel_offset_z" value="0.061" />
+
+  <!-- define a wheel -->
+  <xacro:macro name="wheel" params="suffix parent reflect color offset_x offset_y">
+    <joint name="${parent}_${suffix}_wheel_joint" type="continuous">
+      <axis xyz="0 0 1" />
+      <limit effort="100" velocity="100"/>
+      <safety_controller k_velocity="10" />
+      <origin xyz="${offset_x} ${reflect * offset_y} ${wheel_offset_z}" rpy="${reflect * 1.57} 0 0" />
+      <parent link="${parent}_link"/>
+      <child link="${parent}_${suffix}_wheel_link"/>
+    </joint>
+    <link name="${parent}_${suffix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <!-- The base xacro macro -->
+  <xacro:macro name="base" params="name color">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0.21" rpy="0 0 0" />
+        <geometry>
+          <box size="0.44 0.3 0.1"/>
+        </geometry>
+        <material name="${color}" />
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.21" rpy="0 0 0" />
+        <geometry>
+          <box size="0.44 0.3 0.1"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${name}_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="base_footprint"/>
+      <child link="${name}_link" />
+    </joint>
+  </xacro:macro>
+
+  <link name="base_footprint">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.05 0.05 0.001" />
+        </geometry>
+        <material name="TransparentGreen" />
+      </visual>
+  </link>
+</robot>

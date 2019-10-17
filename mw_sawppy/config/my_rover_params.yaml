@@ -7,7 +7,7 @@ base_frame: base_footprint
 # === Robot drivetrain parameters
 wheel_diameter: 0.122
 wheel_track: 0.524
-encoder_resolution: 897.96 # 74.83 gearbox * 2 sensors * 6 magnets
+encoder_resolution: 3591.84 # 74.83 gearbox * 2 sensors * 6 magnets * quadrature
 gear_reduction: 1.0
 motors_reversed: False
 

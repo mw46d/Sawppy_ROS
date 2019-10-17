@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<robot name="sawppy" xmlns:xacro="http://ros.org/wiki/xacro">
+
+   <!-- Include all component files -->
+   <xacro:include filename="$(find mw_sawppy)/urdf/materials.urdf.xacro" />
+   <xacro:include filename="$(find mw_sawppy)/urdf/sawppy_base.urdf.xacro" />
+
+   <!-- Add the base and wheels -->
+   <base name="base" color="Yellow"/>
+
+  <!-- Add the drive wheels -->
+  <wheel parent="base" suffix="l" reflect="1" color="Black" offset_x="0.0" offset_y="0.262"/>
+  <wheel parent="base" suffix="r" reflect="-1" color="Black" offset_x="0.0" offset_y="0.262"/>
+
+  <wheel parent="base" suffix="fl" reflect="1" color="Black" offset_x="0.260" offset_y="0.237"/>
+  <wheel parent="base" suffix="fr" reflect="-1" color="Black" offset_x="0.260" offset_y="0.237"/>
+
+  <wheel parent="base" suffix="rl" reflect="1" color="Black" offset_x="-0.260" offset_y="0.237"/>
+  <wheel parent="base" suffix="rr" reflect="-1" color="Black" offset_x="-0.260" offset_y="0.237"/>
+
+  <link name="t265_model_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.01 0.09 0.02"/>
+      </geometry>
+      <material name="Blue" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.01 0.09 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="t265_model_joint" type="fixed">
+    <origin xyz="0.215 0 0.275" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="t265_model_link" />
+  </joint>
+
+  <link name="d435_model_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.02 0.08 0.02"/>
+      </geometry>
+      <material name="Blue" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.02 0.08 0.02"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="d435_model_joint" type="fixed">
+    <origin xyz="0.21 0 0.30" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="d435_model_link" />
+  </joint>
+
+  <virtual_joint name="base_odom" type="planar" parent_frame="odom" child_link="base_footprint" />
+
+</robot>
+
+

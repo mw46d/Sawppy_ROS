@@ -53,7 +53,7 @@ class Receiver():
                 if m != None:
                     t = rospy.Time.now()
 
-                    if (t - last_time).total_seconds() > 0.05:
+                    if (t - last_time).to_sec() > 0.05:
                         last_time = t
                         my_joy.header.stamp = t
                         rc = [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
