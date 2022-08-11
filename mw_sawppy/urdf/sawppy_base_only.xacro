@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<robot name="sawppy" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="sawppy" xmlns:xacro="https://www.ros.org/wiki/xacro">
 
    <!-- Include all component files -->
    <xacro:include filename="$(find mw_sawppy)/urdf/materials.urdf.xacro" />
@@ -34,7 +34,16 @@
         <box size="0.01 0.09 0.02"/>
       </geometry>
     </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <origin rpy="0 0 0" xyz="0 0 0.1"/>
+      <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/>
+    </inertial>
   </link>
+  <gazebo reference="t265_model_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
   <joint name="t265_model_joint" type="fixed">
     <origin xyz="0.215 0 0.275" rpy="0 0 0" />
     <parent link="base_link"/>
@@ -60,7 +69,15 @@
         <box size="0.02 0.08 0.02"/>
       </geometry>
     </collision>
+    <inertial>
+      <mass value="0.25"/>
+      <origin rpy="0 0 0" xyz="0 0 0.1"/>
+      <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/>
+    </inertial>
   </link>
+  <gazebo reference="d435_model_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
   <joint name="d435_model_joint" type="fixed">
     <origin xyz="0.21 0 0.30" rpy="0 0 0" />
     <parent link="base_link"/>
