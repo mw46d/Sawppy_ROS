@@ -34,6 +34,7 @@ import thread
 import traceback
 
 from geometry_msgs.msg import Quaternion, Twist, Pose
+from std_msgs.msg import Int8
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
 
@@ -237,6 +238,8 @@ class chassis:
         self.odomPub = rospy.Publisher('odom', Odometry, queue_size = 5)
         self.odomBroadcaster = TransformBroadcaster()
 
+        self.dirPub = rospy.Publisher('/display/direction', Int8, queue_size = 5)
+
         # Reserve a thread lock
         self.mutex = thread.allocate_lock()
 
@@ -293,7 +296,7 @@ class chassis:
                 dright = (right_enc - self.enc_right) / self.ticks_per_meter
                 dleft = (left_enc - self.enc_left) / self.ticks_per_meter
 
-            print("Odom dt= %f, dleft= %f  dright= %f, last_enc=(%d, %d), enc=(%d, %d)" % (dt, dleft, dright, self.enc_left, self.enc_right, left_enc, right_enc))
+            # print("Odom dt= %f, dleft= %f  dright= %f, last_enc=(%d, %d), enc=(%d, %d)" % (dt, dleft, dright, self.enc_left, self.enc_right, left_enc, right_enc))
             self.enc_right = right_enc
             self.enc_left = left_enc
 
@@ -445,6 +448,7 @@ class chassis:
     def cmdVelCallback(self, req):
         # Handle velocity-based movement requests
         self.last_cmd_vel = rospy.Time.now()
+        dir = 0
 
         velocity = req.linear.x         # m/s
         th = req.angular.z       # rad/s
@@ -454,16 +458,25 @@ class chassis:
         radius = infinity
 
         # deadband
-        if abs(velocity) < 0.02:
+        if abs(velocity) < 0.03:
             velocity = 0.0
             if abs(th) < 0.2:
                 th = 0.0
         if abs(th) < 0.03:
             th = 0.0
 
+        if th == 0.0:
+            dir = 0
+        elif th < 0.0:
+            dir = -1
+        elif th > 0.0:
+            dir = 1
+
+        self.dirPub.publish(dir)
+
         if th != 0.0:
             radius = velocity / th
-        print("cmdVelCallback(%f, %f, %f) maxRadius= %f" % (velocity, th, radius, self.maxRadius))
+        # print("cmdVelCallback(%f, %f, %f) maxRadius= %f" % (velocity, th, radius, self.maxRadius))
 
         """
         Given the desired velocity and turning radius, update the angle and

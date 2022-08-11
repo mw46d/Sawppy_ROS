@@ -5,6 +5,7 @@
    <!-- Include all component files -->
    <xacro:include filename="$(find mw_sawppy)/urdf/materials.urdf.xacro" />
    <xacro:include filename="$(find mw_sawppy)/urdf/sawppy_base.urdf.xacro" />
+   <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro" />
 
    <!-- Add the base and wheels -->
    <base name="base" color="Yellow"/>
@@ -40,6 +41,11 @@
     <child link="t265_model_link" />
   </joint>
 
+  <sensor_d435 parent="base_link">
+    <origin xyz="0.21 0 0.30" rpy="0 0 0"/>
+  </sensor_d435>
+
+  <!--
   <link name="d435_model_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -60,6 +66,7 @@
     <parent link="base_link"/>
     <child link="d435_model_link" />
   </joint>
+  -->
 
   <virtual_joint name="base_odom" type="planar" parent_frame="odom" child_link="base_footprint" />
 

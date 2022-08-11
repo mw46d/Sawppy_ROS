@@ -64,9 +64,8 @@ class Receiver():
 
                         rc_use = rc[5] - (limitparams[5]['min'] + limitparams[5]['max']) / 2
                         if rc_use > -450 and rc_use < 450:
-                            rospy.logerr("%s: rc_receiver.run() messed up last: %f, %f, %f, %f, %f, %f, %f, %f  now %f, %f, %f, %f, %f, %f, %f, %f" %
-                                (t.strftime("%H%M%S.%f"),
-                                 last_rc[0], last_rc[1], last_rc[2], last_rc[3], last_rc[4], last_rc[5], last_rc[6], last_rc[7],
+                            rospy.logerr("rc_receiver.run() messed up last: %f, %f, %f, %f, %f, %f, %f, %f  now %f, %f, %f, %f, %f, %f, %f, %f" %
+                                (last_rc[0], last_rc[1], last_rc[2], last_rc[3], last_rc[4], last_rc[5], last_rc[6], last_rc[7],
                                  rc[0], rc[1], rc[2], rc[3], rc[4], rc[5], rc[6], rc[7]))
                             ok = False
 

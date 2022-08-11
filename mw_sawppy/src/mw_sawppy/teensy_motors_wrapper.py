@@ -225,6 +225,9 @@ class teensy_motors_wrapper:
         if inverted:
             ticks = ticks * -1
 
+        if abs(ticks) < 20:
+            ticks = 0
+
         self.execute_ack("n %d %d\r" % (mid, ticks))
 
     def init_angle(self, id):

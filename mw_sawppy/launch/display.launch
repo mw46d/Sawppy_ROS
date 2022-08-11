@@ -1,0 +1,5 @@
+<launch>
+    <node name="led_display" pkg="mw_sawppy" type="led_display.py" output="screen">
+        <rosparam file="$(find mw_sawppy)/config/led.yaml" command="load" />
+    </node>
+</launch>

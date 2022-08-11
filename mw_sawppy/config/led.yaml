@@ -1,0 +1,6 @@
+SGVHAK_Rover:
+  led:
+    connect:
+      baudrate: 115200
+      port: /dev/adafruit-display
+      timeout: 0
